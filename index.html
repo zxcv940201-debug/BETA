@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>霓虹 NEON | 未來感室內設計與空間規劃</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- GSAP & ScrollTrigger 動畫庫 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        neon: {
+                            cyan: '#00F0FF',
+                            purple: '#7000FF',
+                            pink: '#FF007A',
+                            dark: '#0A0A0C',
+                            card: '#121218',
+                            border: '#2A2A38'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Microsoft JhengHei', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 20px rgba(0, 240, 255, 0.35)',
+                        'neon-purple': '0 0 20px rgba(112, 0, 255, 0.35)',
+                        'neon-pink': '0 0 20px rgba(255, 0, 122, 0.35)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 基礎樣式與可讀性對比優化 */
+        body {
+            background-color: #0A0A0C;
+            color: #F1F5F9;
+            overflow-x: hidden;
+        }
+        
+        .glow-text-cyan {
+            text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+        }
+
+        .cyber-border {
+            position: relative;
+            background: linear-gradient(#121218, #121218) padding-box,
+                        linear-gradient(135deg, rgba(0,240,255,0.5), rgba(112,0,255,0.3), rgba(255,0,122,0.5)) border-box;
+            border: 1px solid transparent;
+        }
+
+        .glass-panel {
+            background: rgba(18, 18, 24, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 熱點脈衝動畫 */
+        @keyframes pulse-cyan {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(0, 240, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); }
+        }
+
+        .hotspot-ring {
+            animation: pulse-cyan 2s infinite;
+        }
+
+        /* 隱藏滾動條但可滾動 */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 可讀性高亮焦點 */
+        input:focus, select:focus, textarea:focus {
+            outline: 2px solid #00F0FF;
+            outline-offset: 1px;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-neon-cyan selection:text-black">
+
+    <!-- 導覽列 (Header) -->
+    <header class="fixed top-0 left-0 w-full z-40 glass-panel border-b border-white/10 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- LOGO -->
+            <a href="#" class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-neon-cyan rounded-lg p-1">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-neon-purple to-neon-cyan p-[1px] flex items-center justify-center shadow-neon-cyan group-hover:scale-105 transition-transform">
+                    <div class="w-full h-full bg-neon-dark rounded-[7px] flex items-center justify-center">
+                        <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-white text-xl">N</span>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-black tracking-widest text-xl text-white group-hover:text-neon-cyan transition-colors">霓虹 <span class="text-xs text-neon-cyan font-mono">NEON</span></span>
+                    <span class="text-[10px] text-gray-400 tracking-wider">FUTURE INTERIOR DESIGN</span>
+                </div>
+            </a>
+
+            <!-- 選單頁籤 -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#about" class="text-gray-300 hover:text-neon-cyan transition-colors">品牌理念</a>
+                <a href="#services" class="text-gray-300 hover:text-neon-cyan transition-colors">服務內容</a>
+                <a href="#gallery" class="text-gray-300 hover:text-neon-cyan transition-colors">專案圖庫</a>
+                <a href="#interactive" class="text-gray-300 hover:text-neon-cyan transition-colors">空間導覽</a>
+                <a href="#tech" class="text-gray-300 hover:text-neon-cyan transition-colors">科技流程</a>
+                <a href="#contact" class="text-gray-300 hover:text-neon-cyan transition-colors">聯絡諮詢</a>
+            </nav>
+
+            <!-- 右側預約按鈕 -->
+            <div class="hidden sm:flex items-center gap-4">
+                <a href="#contact" class="px-5 py-2.5 rounded-full text-xs font-bold tracking-wider text-black bg-gradient-to-r from-neon-cyan to-blue-400 hover:shadow-neon-cyan transition-all duration-300 transform hover:-translate-y-0.5">
+                    預約未來空間
+                </a>
+            </div>
+
+            <!-- 移動端選單按鈕 -->
+            <button id="mobile-menu-btn" aria-label="切換導覽選單" class="md:hidden text-gray-300 hover:text-white p-2 rounded-lg border border-white/10">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- 移動端選單展開 -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-b border-white/10 px-6 pt-3 pb-6 space-y-3">
+            <a href="#about" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-neon-cyan">品牌理念</a>
+            <a href="#services" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-neon-cyan">服務內容</a>
+            <a href="#gallery" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-neon-cyan">專案圖庫</a>
+            <a href="#interactive" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-neon-cyan">空間導覽</a>
+            <a href="#tech" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-neon-cyan">科技流程</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block py-2 text-neon-cyan font-bold">預約未來空間</a>
+        </div>
+    </header>
+
+    <!-- 區塊 1: 首頁 Hero -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-neon-purple/20 via-neon-dark to-neon-dark"></div>
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-neon-cyan/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+        <!-- 網格底紋 -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center z-10 flex flex-col items-center">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-neon-cyan/30 bg-neon-cyan/10 text-neon-cyan text-xs font-mono tracking-widest mb-8 shadow-neon-cyan/20">
+                <span class="w-2 h-2 rounded-full bg-neon-cyan animate-ping"></span>
+                REDEFINING FUTURE ARCHITECTURE
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white max-w-4xl leading-tight mb-6">
+                塑形未來 <br class="hidden sm:inline" />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-white to-neon-purple glow-text-cyan">
+                    翻轉空間的靈魂脈動
+                </span>
+            </h1>
+
+            <p class="text-gray-300 text-base sm:text-lg max-w-2xl mb-10 leading-relaxed font-light">
+                霓虹 NEON 專注於極簡科技美學與未來空間工程。透過 BIM 數位雙生、VR 沉浸體驗與 AI 情境模擬，打造獨樹一幟的智慧生活形態。
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                <a href="#gallery" class="px-8 py-4 rounded-xl font-bold text-sm text-black bg-neon-cyan hover:bg-white transition-all duration-300 shadow-neon-cyan flex items-center justify-center gap-2 group">
+                    <span>瀏覽專案圖庫</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#interactive" class="px-8 py-4 rounded-xl font-bold text-sm text-white glass-panel hover:bg-white/10 border border-white/20 transition-all duration-300 flex items-center justify-center gap-2">
+                    <i data-lucide="box" class="w-4 h-4 text-neon-cyan"></i>
+                    <span>體驗互動空間導覽</span>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-10 border-t border-white/10 w-full max-w-4xl gsap-reveal">
+                <div>
+                    <div class="text-3xl font-black text-white font-mono">100%</div>
+                    <div class="text-xs text-gray-400 mt-1">BIM 3D 擬真模型</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-black text-neon-cyan font-mono">40+</div>
+                    <div class="text-xs text-gray-400 mt-1">國際獲獎案例</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-black text-white font-mono">0.01mm</div>
+                    <div class="text-xs text-gray-400 mt-1">數位施工精度</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-black text-neon-purple font-mono">24/7</div>
+                    <div class="text-xs text-gray-400 mt-1">智慧環控整合</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 區塊 2: 品牌理念 (About Us) -->
+    <section id="about" class="py-24 relative bg-neon-dark/80 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="gsap-reveal">
+                    <span class="text-neon-cyan text-xs font-mono tracking-widest block mb-2">// BRAND PHILOSOPHY</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
+                        打破常規裝潢，<br />以賽博極簡重塑美學範式
+                    </h2>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        我們相信空間不只是四面牆的組合，而是情感與科技交會的有機體。霓虹 NEON 捨棄繁複沉悶的傳統造型，引入光軌、金屬、幾何與微光暈語彙，創造專屬於您的未來棲居場所。
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 p-4 rounded-xl glass-panel border border-white/5">
+                            <div class="p-2 rounded-lg bg-neon-cyan/10 text-neon-cyan">
+                                <i data-lucide="sparkles" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-white font-bold text-sm">獨樹一幟的語彙</h3>
+                                <p class="text-xs text-gray-400 mt-1">融合賽博朋克光影與前衛極簡風格，拒絕同質化大眾設計。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 p-4 rounded-xl glass-panel border border-white/5">
+                            <div class="p-2 rounded-lg bg-neon-purple/10 text-neon-purple">
+                                <i data-lucide="cpu" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-white font-bold text-sm">科技賦能工程</h3>
+                                <p class="text-xs text-gray-400 mt-1">全程採用數位模型與精準製程，確保落實 100% 的設計提案。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative gsap-reveal">
+                    <div class="relative rounded-2xl overflow-hidden cyber-border shadow-2xl group">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80" 
+                             onerror="this.src='https://placehold.co/1000x600/121218/00F0FF?text=Neon+Interior'" 
+                             alt="Neon Interior Concept" class="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-neon-dark via-transparent to-transparent opacity-80"></div>
+                        <div class="absolute bottom-6 left-6 right-6 p-4 glass-panel rounded-xl">
+                            <div class="text-xs font-mono text-neon-cyan mb-1">CONCEPT #00</div>
+                            <div class="text-sm font-bold text-white">光影解構與智慧宅體 - NEON Headquarters</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 區塊 3: 服務內容與團隊提供服務 (Services & Offerings) -->
+    <section id="services" class="py-20 relative bg-black border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 gsap-reveal">
+                <span class="text-neon-cyan text-xs font-mono tracking-widest block mb-2">// OUR SERVICES</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">我們提供什麼服務？</h2>
+                <p class="text-gray-400 text-sm">從住宅、商業地標到公共展演，專注於將未來科技與前衛美學實踐於實體空間。</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- 住宅服務 -->
+                <div class="glass-panel p-8 rounded-2xl border border-white/10 hover:border-neon-cyan transition-all duration-300 group gsap-reveal">
+                    <div class="w-12 h-12 rounded-xl bg-neon-cyan/10 text-neon-cyan flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="home" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">住宅空間規劃 Residential</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed mb-6">頂層豪宅、極簡科技宅與隱匿睡眠座艙設計。完美調和私密質感、減壓光效與 Smart Home 自動化。</p>
+                    <ul class="text-xs text-gray-300 space-y-2 border-t border-white/10 pt-4 font-mono">
+                        <li>✓ 獨棟 / 大樓全屋訂製</li>
+                        <li>✓ 智慧家居與情境燈光</li>
+                        <li>✓ 無縫流體材質與動線</li>
+                    </ul>
+                </div>
+
+                <!-- 商業服務 -->
+                <div class="glass-panel p-8 rounded-2xl border border-white/10 hover:border-neon-purple transition-all duration-300 group gsap-reveal">
+                    <div class="w-12 h-12 rounded-xl bg-neon-purple/10 text-neon-purple flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="store" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">商業品牌地標 Commercial</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed mb-6">為餐飲酒吧、潮牌旗艦店與科技辦公室注入賽博朋克靈魂，打造引爆社交媒體討論的打卡焦點。</p>
+                    <ul class="text-xs text-gray-300 space-y-2 border-t border-white/10 pt-4 font-mono">
+                        <li>✓ 可程式化 RGBW 動態光牆</li>
+                        <li>✓ 人流動線與商業坪效規劃</li>
+                        <li>✓ 品牌五感視覺語彙塑造</li>
+                    </ul>
+                </div>
+
+                <!-- 公共展演與軟裝 -->
+                <div class="glass-panel p-8 rounded-2xl border border-white/10 hover:border-neon-pink transition-all duration-300 group gsap-reveal">
+                    <div class="w-12 h-12 rounded-xl bg-neon-pink/10 text-neon-pink flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="layers" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">公共展演 & 數位雙生</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed mb-6">當代藝廊、數位展覽空間設計。提供從 BIM 3D 建模、微水泥施作到未來自訂傢俱選品的一站式服務。</p>
+                    <ul class="text-xs text-gray-300 space-y-2 border-t border-white/10 pt-4 font-mono">
+                        <li>✓ BIM 數位建模與 0.01mm 精度</li>
+                        <li>✓ 沉浸式 VR 1:1 實境開工前體驗</li>
+                        <li>✓ 獨家未來感軟裝產品採購</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 區塊 4: 專案圖庫 & 作品分類 (Project Gallery) -->
+    <section id="gallery" class="py-24 relative bg-neon-dark border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-neon-cyan text-xs font-mono tracking-widest block mb-2">// PORTFOLIO GALLERY</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white">專案圖庫 Project Gallery</h2>
+                </div>
+                <p class="text-gray-400 text-sm max-w-md mt-4 md:mt-0">
+                    點擊任何專案卡片可開啟「專案詳情 Modal」，觀看完整的設計背景、挑戰、解方與空間元資料。
+                </p>
+            </div>
+
+            <!-- 作品分類篩選 Tag -->
+            <div class="flex flex-wrap items-center gap-3 mb-10 border-b border-white/10 pb-6">
+                <span class="text-xs font-mono text-gray-400 mr-2 flex items-center gap-1">
+                    <i data-lucide="filter" class="w-3.5 h-3.5 text-neon-cyan"></i> 空間分類:
+                </span>
+                <button onclick="filterProjects('all')" class="filter-btn active px-4 py-2 rounded-lg text-xs font-mono transition-all bg-neon-cyan text-black font-bold shadow-neon-cyan" data-cat="all">
+                    全部 ALL
+                </button>
+                <button onclick="filterProjects('residential')" class="filter-btn px-4 py-2 rounded-lg text-xs font-mono transition-all glass-panel text-gray-300 hover:text-white hover:border-neon-cyan/50" data-cat="residential">
+                    住宅空間 Residential
+                </button>
+                <button onclick="filterProjects('commercial')" class="filter-btn px-4 py-2 rounded-lg text-xs font-mono transition-all glass-panel text-gray-300 hover:text-white hover:border-neon-cyan/50" data-cat="commercial">
+                    商業空間 Commercial
+                </button>
+                <button onclick="filterProjects('public')" class="filter-btn px-4 py-2 rounded-lg text-xs font-mono transition-all glass-panel text-gray-300 hover:text-white hover:border-neon-cyan/50" data-cat="public">
+                    公共展演 Public & Exhibitions
+                </button>
+            </div>
+
+            <!-- 圖庫卡片列表 -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                <!-- 由 JavaScript 自動注入卡片 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 區塊 5: 互動空間導覽 (Interactive Floorplan) -->
+    <section id="interactive" class="py-24 relative bg-black border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 gsap-reveal">
+                <span class="text-neon-cyan text-xs font-mono tracking-widest block mb-2">// INTERACTIVE FLOORPLAN</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">空間導覽與熱點互動</h2>
+                <p class="text-gray-400 text-sm">
+                    點選平面圖上的數字熱點標記，即可切換觀看該區域對應的實景照片、使用材質與設計理念說明。
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 items-start">
+                <!-- 左側：互動平面圖 -->
+                <div class="lg:col-span-6 glass-panel rounded-2xl p-6 border border-white/10 relative gsap-reveal">
+                    <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
+                        <span class="text-xs font-mono text-neon-cyan flex items-center gap-2">
+                            <i data-lucide="map" class="w-4 h-4"></i> Interactive Floor Plan (Level 01)
+                        </span>
+                        <span class="text-[10px] bg-neon-purple/20 text-neon-purple px-2 py-1 rounded font-mono">CYBER-LOFT 32坪</span>
+                    </div>
+
+                    <!-- 平面圖 SVG 容器 -->
+                    <div class="relative bg-black/80 rounded-xl overflow-hidden border border-white/10 h-[380px] flex items-center justify-center p-4">
+                        <svg class="w-full h-full text-neon-cyan/30" viewBox="0 0 600 400" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="40" y="40" width="520" height="320" rx="8" stroke="currentColor" stroke-width="3" />
+                            <rect x="40" y="40" width="280" height="200" stroke-dasharray="4 4" />
+                            <text x="60" y="70" fill="#94A3B8" font-size="12" font-family="monospace">LIVING ROOM</text>
+                            <rect x="320" y="40" width="240" height="200" />
+                            <text x="340" y="70" fill="#94A3B8" font-size="12" font-family="monospace">MAIN BEDROOM</text>
+                            <rect x="40" y="240" width="280" height="120" />
+                            <text x="60" y="270" fill="#94A3B8" font-size="12" font-family="monospace">KITCHEN & BAR</text>
+                            <rect x="320" y="240" width="240" height="120" />
+                            <text x="340" y="270" fill="#94A3B8" font-size="12" font-family="monospace">TECH LAB / WORKSTATION</text>
+                        </svg>
+
+                        <!-- 熱點 1: 客廳 -->
+                        <button onclick="switchRoom('living')" id="spot-living" aria-label="切換至沉浸式客廳" class="hotspot-btn absolute top-[30%] left-[28%] -translate-x-1/2 -translate-y-1/2 group focus:outline-none">
+                            <div class="w-8 h-8 rounded-full bg-neon-cyan/30 flex items-center justify-center hotspot-ring">
+                                <div class="w-4 h-4 rounded-full bg-neon-cyan flex items-center justify-center text-[10px] text-black font-bold">1</div>
+                            </div>
+                            <span class="absolute top-9 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/90 text-neon-cyan text-[10px] font-mono px-2 py-0.5 rounded border border-neon-cyan/30">沉浸式客廳</span>
+                        </button>
+
+                        <!-- 熱點 2: 吧檯 -->
+                        <button onclick="switchRoom('bar')" id="spot-bar" aria-label="切換至霓虹吧檯" class="hotspot-btn absolute top-[70%] left-[28%] -translate-x-1/2 -translate-y-1/2 group focus:outline-none">
+                            <div class="w-8 h-8 rounded-full bg-neon-purple/30 flex items-center justify-center">
+                                <div class="w-4 h-4 rounded-full bg-neon-purple flex items-center justify-center text-[10px] text-white font-bold">2</div>
+                            </div>
+                            <span class="absolute top-9 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/90 text-neon-purple text-[10px] font-mono px-2 py-0.5 rounded border border-neon-purple/30">霓虹吧檯</span>
+                        </button>
+
+                        <!-- 熱點 3: 主臥 -->
+                        <button onclick="switchRoom('bedroom')" id="spot-bedroom" aria-label="切換至睡眠座艙" class="hotspot-btn absolute top-[30%] left-[70%] -translate-x-1/2 -translate-y-1/2 group focus:outline-none">
+                            <div class="w-8 h-8 rounded-full bg-neon-pink/30 flex items-center justify-center">
+                                <div class="w-4 h-4 rounded-full bg-neon-pink flex items-center justify-center text-[10px] text-white font-bold">3</div>
+                            </div>
+                            <span class="absolute top-9 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/90 text-neon-pink text-[10px] font-mono px-2 py-0.5 rounded border border-neon-pink/30">睡眠座艙</span>
+                        </button>
+
+                        <!-- 熱點 4: 科技工作站 -->
+                        <button onclick="switchRoom('lab')" id="spot-lab" aria-label="切換至工作站" class="hotspot-btn absolute top-[70%] left-[70%] -translate-x-1/2 -translate-y-1/2 group focus:outline-none">
+                            <div class="w-8 h-8 rounded-full bg-blue-500/30 flex items-center justify-center">
+                                <div class="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center text-[10px] text-white font-bold">4</div>
+                            </div>
+                            <span class="absolute top-9 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/90 text-blue-400 text-[10px] font-mono px-2 py-0.5 rounded border border-blue-500/30">工作站</span>
+                        </button>
+                    </div>
+
+                    <div class="mt-4 text-xs text-gray-400 flex items-center justify-between">
+                        <span><i data-lucide="mouse-pointer" class="w-3.5 h-3.5 inline mr-1 text-neon-cyan"></i> 點擊上方熱點可切換右側空間照片</span>
+                        <span class="font-mono text-[10px] text-gray-400">SCALE 1:50</span>
+                    </div>
+                </div>
+
+                <!-- 右側：對應房間細節與圖照 -->
+                <div class="lg:col-span-6 glass-panel rounded-2xl p-6 border border-white/10 flex flex-col justify-between min-h-[460px] gsap-reveal" id="room-detail-container">
+                    <div>
+                        <div class="relative h-64 rounded-xl overflow-hidden mb-6 border border-white/10">
+                            <img id="room-image" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" 
+                                 onerror="this.src='https://placehold.co/800x500/121218/00F0FF?text=Room+View'"
+                                 alt="Room Display" class="w-full h-full object-cover transition-all duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                            <div class="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/80 backdrop-blur text-neon-cyan text-xs font-mono border border-neon-cyan/30" id="room-tag">
+                                ZONE 01 : LIVING ROOM
+                            </div>
+                        </div>
+
+                        <h3 class="text-2xl font-bold text-white mb-2" id="room-title">極光光軌 - 未來客廳</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6" id="room-desc">
+                            採用嵌入式微型 RGBW 光條與霧面黑色陽極氧化鋁材，客廳呈現流暢的視覺張力，搭配智慧語音情境燈光切換。
+                        </p>
+                    </div>
+
+                    <div class="border-t border-white/10 pt-4">
+                        <div class="text-xs font-mono text-gray-400 mb-2">// ROOM MATERIALS & SPEC</div>
+                        <div class="flex flex-wrap gap-2" id="room-materials">
+                            <span class="px-2.5 py-1 rounded bg-white/5 text-gray-300 text-xs border border-white/10">陽極氧化鋁板</span>
+                            <span class="px-2.5 py-1 rounded bg-white/5 text-gray-300 text-xs border border-white/10">RGBW 智慧光軌</span>
+                            <span class="px-2.5 py-1 rounded bg-white/5 text-gray-300 text-xs border border-white/10">無縫微水泥地坪</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 區塊 6: 未來科技流程 (Tech & Process) -->
+    <section id="tech" class="py-24 relative bg-neon-dark border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 gsap-reveal">
+                <span class="text-neon-cyan text-xs font-mono tracking-widest block mb-2">// WORKFLOW</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">未來科技製作流程</h2>
+                <p class="text-gray-400 text-sm">
+                    引進 Apple 級別的精準設計標準，將傳統不可控的施工過程，轉化為精確無誤的工程科學。
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-6" id="tech-steps-grid">
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-neon-cyan/40 transition-colors group gsap-step">
+                    <div class="w-12 h-12 rounded-xl bg-neon-cyan/10 text-neon-cyan flex items-center justify-center font-mono font-bold text-lg mb-6 group-hover:scale-110 transition-transform">
+                        01
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2">AI 空間概念生成</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed">
+                        根據業主風格偏好，於溝通階段即時透過 AI 生成多套空間氛圍圖，實現溝通零落差。
+                    </p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-neon-purple/40 transition-colors group gsap-step">
+                    <div class="w-12 h-12 rounded-xl bg-neon-purple/10 text-neon-purple flex items-center justify-center font-mono font-bold text-lg mb-6 group-hover:scale-110 transition-transform">
+                        02
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2">VR 沉浸式實境體驗</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed">
+                        開工前配戴 1:1 VR 裝置，親自走入未來的家，自由測試採光、動線與材質質感。
+                    </p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-neon-pink/40 transition-colors group gsap-step">
+                    <div class="w-12 h-12 rounded-xl bg-neon-pink/10 text-neon-pink flex items-center justify-center font-mono font-bold text-lg mb-6 group-hover:scale-110 transition-transform">
+                        03
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2">BIM 數位雙生工程</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed">
+                        全屋管線與結構 3D 數位建庫，精準計算用料，杜絕現場拆改與預算超支風險。
+                    </p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-blue-400/40 transition-colors group gsap-step">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center font-mono font-bold text-lg mb-6 group-hover:scale-110 transition-transform">
+                        04
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2">Smart Home 整合</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed">
+                        將智能燈光、自動窗簾、氣候與安防系統隱形寫入空間，一鍵觸動全屋情境。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 區塊 7: 預約諮詢與表單 (Contact Us) -->
+    <section id="contact" class="py-24 relative bg-black border-t border-white/10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel rounded-3xl p-8 sm:p-12 border border-white/10 cyber-border shadow-2xl">
+                <div class="text-center mb-10">
+                    <span class="text-neon-cyan text-xs font-mono tracking-widest block mb-2">// CONTACT & BOOKING</span>
+                    <h2 class="text-3xl font-bold text-white mb-2">預約您的未來空間</h2>
+                    <p class="text-gray-400 text-sm">填寫需求資訊，我們的專案設計顧問將於 24 小時內聯絡您。</p>
+                </div>
+
+                <form onsubmit="handleFormSubmit(event)" class="space-y-6">
+                    <div class="grid sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="input-name" class="block text-xs font-mono text-gray-300 mb-2">您的姓名 Name *</label>
+                            <input id="input-name" type="text" required placeholder="例如：陳先生 / Ms. Lin" class="w-full bg-black/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neon-cyan transition-colors">
+                        </div>
+                        <div>
+                            <label for="input-phone" class="block text-xs font-mono text-gray-300 mb-2">聯絡電話 Phone *</label>
+                            <input id="input-phone" type="tel" required placeholder="0912-345-678" class="w-full bg-black/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neon-cyan transition-colors">
+                        </div>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="input-type" class="block text-xs font-mono text-gray-300 mb-2">空間類型 Type *</label>
+                            <select id="input-type" class="w-full bg-black/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neon-cyan transition-colors">
+                                <option value="住宅空間 Residential">住宅空間 Residential</option>
+                                <option value="商業空間 Commercial">商業空間 Commercial</option>
+                                <option value="辦公 / 展覽 Public & Office">辦公 / 展覽 Public & Office</option>
+                                <option value="其他 Other">其他 Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="input-size" class="block text-xs font-mono text-gray-300 mb-2">預估坪數 Size (坪)</label>
+                            <input id="input-size" type="number" placeholder="例如：35" class="w-full bg-black/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neon-cyan transition-colors">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="input-details" class="block text-xs font-mono text-gray-300 mb-2">專案需求 Details</label>
+                        <textarea id="input-details" rows="4" placeholder="簡述您的需求（如：智慧家居、賽博霓虹風格、預算範圍等）" class="w-full bg-black/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neon-cyan transition-colors"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 rounded-xl font-bold text-sm text-black bg-gradient-to-r from-neon-cyan via-white to-blue-400 hover:shadow-neon-cyan transition-all duration-300">
+                        發送預約申請 SEND REQUEST
+                    </button>
+                </form>
+
+                <!-- 成功提示視窗 -->
+                <div id="form-toast" class="hidden mt-6 p-4 rounded-xl bg-neon-cyan/20 border border-neon-cyan text-neon-cyan text-xs text-center font-mono">
+                    ✓ 預約申請已成功送出！我們的設計團隊將儘速與您聯絡。
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁尾 (Footer) -->
+    <footer class="bg-black py-12 border-t border-white/10 text-xs text-gray-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-6 h-6 rounded bg-neon-cyan text-black font-bold flex items-center justify-center font-mono text-xs">N</div>
+                <span class="text-white font-bold tracking-widest">霓虹 NEON INTERIOR</span>
+                <span class="text-gray-500">| © 2026 All Rights Reserved.</span>
+            </div>
+            <div class="flex items-center gap-6 font-mono">
+                <a href="#" class="hover:text-neon-cyan transition-colors">INSTAGRAM</a>
+                <a href="#" class="hover:text-neon-cyan transition-colors">BEHANCE</a>
+                <a href="#" class="hover:text-neon-cyan transition-colors">PINTEREST</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 專案詳情彈窗 (Project Detail Modal) -->
+    <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md" onclick="handleModalBackdropClick(event)">
+        <div class="glass-panel w-full max-w-4xl max-h-[90vh] rounded-3xl border border-white/20 overflow-y-auto no-scrollbar relative flex flex-col shadow-2xl">
+            <!-- 關閉按鈕 -->
+            <button onclick="closeProjectModal()" aria-label="關閉專案詳情" class="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-black/80 text-white border border-white/20 flex items-center justify-center hover:bg-neon-cyan hover:text-black transition-colors focus:outline-none">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Dynamic Content -->
+            <div id="modal-content" class="p-6 sm:p-10">
+                <!-- 由 JavaScript 注入 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript 邏輯庫 -->
+    <script>
+        // 註冊 GSAP 插件
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 初始化 Lucide 圖標
+        lucide.createIcons();
+
+        // 專案圖庫完整元資料 (Metadata & Story)
+        const projectsData = [
+            {
+                id: 'p1',
+                title: '光軌特區 Cyber Penthouse',
+                category: 'residential',
+                categoryLabel: '住宅空間',
+                size: '48 坪',
+                location: '台北信義區',
+                year: '2025',
+                style: '賽博極簡 / 霓虹光影',
+                materials: ['黑鈦金屬', '微水泥', 'RGBW光軌', '智慧調光玻璃'],
+                coverImage: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80',
+                    'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1000&q=80',
+                    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80'
+                ],
+                story: {
+                    background: '業主為科技高管，期待住宅能同時滿足高效遠端辦公與沉浸式放鬆需求。',
+                    challenge: '原始格局採光較窄，且室內大樑壓迫感較強。',
+                    strategy: '引入嵌入式線性光軌與黑鈦金屬，利用視覺反射大幅擴充視覺縱深。',
+                    result: '打造全台首座結合 Smart Home 語音控制與微光環境的獨棟 Cyber Penthouse。'
+                },
+                concept: '以俐落的極致黑底，嵌入線性微光軌，透過 Smart Home 自動化系統將燈光與聲效高度綁定。'
+            },
+            {
+                id: 'p2',
+                title: '矩陣酒吧 MATRIX Bar & Lounge',
+                category: 'commercial',
+                categoryLabel: '商業空間',
+                size: '72 坪',
+                location: '台中西區',
+                year: '2026',
+                style: '未來自創賽博風格',
+                materials: ['陽極氧化鋁', '發光亞克力', '鏡面金屬', '霓虹管'],
+                coverImage: 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=1000&q=80',
+                    'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80'
+                ],
+                story: {
+                    background: '業主希望突破傳統酒吧復古風格，創造兼具感官視覺震撼的未來夜生活地標。',
+                    challenge: '需在營業動線順暢度與高度複雜的燈光電路之間取得平衡。',
+                    strategy: '採用可程式化 RGBW 模組發光亞克力牆，讓光影可隨現場音樂頻率同步脈動。',
+                    result: '成為台中指標性的未來感潮流聚集地。'
+                },
+                concept: '融合賽博酒吧概念，運用大面積動態光牆與幾何鏡面，打造沉浸式夜生活聚落。'
+            },
+            {
+                id: 'p3',
+                title: '新星藝廊 Nova Future Gallery',
+                category: 'public',
+                categoryLabel: '公共展演',
+                size: '120 坪',
+                location: '新北板橋',
+                year: '2025',
+                style: '極致白與數位流體',
+                materials: ['無縫流體地坪', '透光膜', '曲面鋼板'],
+                coverImage: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80'
+                ],
+                story: {
+                    background: '作為當代數位藝術與實體畫作的混合展演場域。',
+                    challenge: '需要純粹、無干擾且具備高度科技擴充性的展示背景。',
+                    strategy: '採用無縫流體地坪與滿版天花透光膜，消弭天地壁的邊界感。',
+                    result: '榮獲國際設計大獎之年度最佳公共展演場域殊榮。'
+                },
+                concept: '公共展覽場域，運用連續曲面與天花板透光膜，消弭空間邊界，使藝術品宛如懸浮於未來的空白容器中。'
+            },
+            {
+                id: 'p4',
+                title: '微光沉浸宅 Void Residence',
+                category: 'residential',
+                categoryLabel: '住宅空間',
+                size: '32 坪',
+                location: '竹北高鐵區',
+                year: '2025',
+                style: '暗黑極簡 / 科技宅',
+                materials: ['黑橡木皮', '冷光 LED', '燒衫木', '霧面石材'],
+                coverImage: 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=80'
+                ],
+                story: {
+                    background: '專為資深軟體架構師量身規劃之靜修庇護所。',
+                    challenge: '屋主對強光極度敏感，渴望絕對安寧與減壓的環境。',
+                    strategy: '全屋採用低色溫隱藏式間接光與深色吸音面板。',
+                    result: '實現極致寧靜與高感度沉思生活場域。'
+                },
+                concept: '以「隱匿與庇護」為核心概念，專為工程師規劃的靜謐休憩空間，著重於減壓光環境與隱形收納。'
+            }
+        ];
+
+        // 渲染專案卡片
+        function renderProjects(filter = 'all') {
+            const grid = document.getElementById('projects-grid');
+            grid.innerHTML = '';
+
+            const filteredData = filter === 'all' 
+                ? projectsData 
+                : projectsData.filter(p => p.category === filter);
+
+            filteredData.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'project-card glass-panel rounded-2xl overflow-hidden border border-white/10 hover:border-neon-cyan/50 transition-all duration-300 group flex flex-col justify-between cursor-pointer';
+                card.onclick = () => openProjectModal(p.id);
+
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-60 overflow-hidden">
+                            <img src="${p.coverImage}" 
+                                 onerror="this.src='https://placehold.co/800x600/121218/00F0FF?text=Interior+Image'"
+                                 alt="${p.title}" class="card-img w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                            <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/80 backdrop-blur text-neon-cyan text-[10px] font-mono border border-neon-cyan/30">
+                                ${p.categoryLabel}
+                            </span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-neon-cyan transition-colors">${p.title}</h3>
+                            <p class="text-xs text-gray-300 line-clamp-2 leading-relaxed mb-4">${p.concept}</p>
+                            
+                            <div class="flex flex-wrap gap-2 pt-2 border-t border-white/5">
+                                <span class="text-[10px] font-mono bg-white/5 text-gray-300 px-2 py-0.5 rounded">${p.size}</span>
+                                <span class="text-[10px] font-mono bg-white/5 text-gray-300 px-2 py-0.5 rounded">${p.location}</span>
+                                <span class="text-[10px] font-mono bg-white/5 text-neon-purple px-2 py-0.5 rounded">${p.year}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0 flex items-center justify-between text-xs text-neon-cyan font-mono group-hover:translate-x-1 transition-transform">
+                        <span>VIEW DETAILS & METADATA</span>
+                        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            lucide.createIcons();
+
+            // GSAP 淡入動畫
+            gsap.fromTo('.project-card', 
+                { opacity: 0, y: 25 },
+                { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: "power2.out" }
+            );
+        }
+
+        // 分類篩選
+        function filterProjects(cat) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.className = 'filter-btn active px-4 py-2 rounded-lg text-xs font-mono transition-all bg-neon-cyan text-black font-bold shadow-neon-cyan';
+                } else {
+                    btn.className = 'filter-btn px-4 py-2 rounded-lg text-xs font-mono transition-all glass-panel text-gray-300 hover:text-white hover:border-neon-cyan/50';
+                }
+            });
+            renderProjects(cat);
+        }
+
+        // 開啟 Modal
+        function openProjectModal(id) {
+            const project = projectsData.find(p => p.id === id);
+            if (!project) return;
+
+            const modal = document.getElementById('project-modal');
+            const content = document.getElementById('modal-content');
+
+            content.innerHTML = `
+                <div class="mb-8">
+                    <span class="text-neon-cyan text-xs font-mono tracking-widest block mb-1">// PROJECT METADATA</span>
+                    <h2 class="text-3xl font-bold text-white mb-2">${project.title}</h2>
+                    <p class="text-gray-300 text-sm leading-relaxed">${project.concept}</p>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-xl bg-black/60 border border-white/10 mb-8 font-mono text-xs">
+                    <div>
+                        <span class="text-gray-400 block">SIZE</span>
+                        <span class="text-white font-bold">${project.size}</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block">LOCATION</span>
+                        <span class="text-white font-bold">${project.location}</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block">COMPLETION</span>
+                        <span class="text-white font-bold">${project.year}</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block">STYLE</span>
+                        <span class="text-neon-cyan font-bold">${project.style}</span>
+                    </div>
+                </div>
+
+                ${project.story ? `
+                <div class="mb-8 border-l-2 border-neon-cyan/40 pl-6 space-y-4">
+                    <h3 class="text-xs font-mono text-neon-cyan">// CASE STORY & STRATEGY</h3>
+                    <div class="story-item">
+                        <span class="text-xs font-bold text-white block">01. 設計背景 Background</span>
+                        <p class="text-xs text-gray-300 mt-0.5">${project.story.background}</p>
+                    </div>
+                    <div class="story-item">
+                        <span class="text-xs font-bold text-white block">02. 屋況挑戰 Challenge</span>
+                        <p class="text-xs text-gray-300 mt-0.5">${project.story.challenge}</p>
+                    </div>
+                    <div class="story-item">
+                        <span class="text-xs font-bold text-white block">03. 未來解方 Strategy</span>
+                        <p class="text-xs text-gray-300 mt-0.5">${project.story.strategy}</p>
+                    </div>
+                    <div class="story-item">
+                        <span class="text-xs font-bold text-neon-cyan block">04. 最終成果 Result</span>
+                        <p class="text-xs text-gray-200 mt-0.5">${project.story.result}</p>
+                    </div>
+                </div>
+                ` : ''}
+
+                <div class="mb-8">
+                    <h3 class="text-xs font-mono text-gray-400 mb-3">// MATERIALS & TECHNOLOGY</h3>
+                    <div class="flex flex-wrap gap-2">
+                        ${project.materials.map(m => `<span class="px-3 py-1 rounded-full bg-neon-purple/20 border border-neon-purple/40 text-neon-purple text-xs font-mono">${m}</span>`).join('')}
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <h3 class="text-xs font-mono text-gray-400 mb-2">// HIGH-RES GALLERY</h3>
+                    ${project.gallery.map(img => `
+                        <div class="rounded-2xl overflow-hidden border border-white/10">
+                            <img src="${img}" 
+                                 onerror="this.src='https://placehold.co/1000x600/121218/00F0FF?text=High-Res+Detail'"
+                                 class="w-full h-auto object-cover" alt="Gallery Detail">
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+
+            gsap.fromTo('.story-item',
+                { opacity: 0, x: -15 },
+                { opacity: 1, x: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out' }
+            );
+        }
+
+        // 關閉 Modal
+        function closeProjectModal() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        function handleModalBackdropClick(e) {
+            if (e.target.id === 'project-modal') {
+                closeProjectModal();
+            }
+        }
+
+        // 鍵盤 ESC 關閉 Modal
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeProjectModal();
+        });
+
+        // 房間導覽熱點資料
+        const roomData = {
+            living: {
+                title: '極光光軌 - 未來客廳',
+                desc: '採用嵌入式微型 RGBW 光條與霧面黑色陽極氧化鋁材，客廳呈現流暢的視覺張力，搭配智慧語音情境燈光切換。',
+                img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
+                tag: 'ZONE 01 : LIVING ROOM',
+                materials: ['陽極氧化鋁板', 'RGBW 智慧光軌', '無縫微水泥地坪']
+            },
+            bar: {
+                title: '賽博霓虹 - 私人吧檯',
+                desc: '懸浮式黑色大理石酒吧搭配邊界冷光，將微醺氣氛納入居家空間，後方壁櫃整合透光薄石板與隱藏收納。',
+                img: 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=800&q=80',
+                tag: 'ZONE 02 : NEON BAR',
+                materials: ['透光薄石板', '黑鈦金屬鏡面', '智慧溫控酒櫃']
+            },
+            bedroom: {
+                title: '微光沉浸 - 睡眠座艙',
+                desc: '運用包裹式木質與降噪曲面牆，打造如太空艙般安心的沉浸睡眠空間，隱藏式環光提供極舒適的夜間視能。',
+                img: 'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80',
+                tag: 'ZONE 03 : SLEEP CABIN',
+                materials: ['吸音曲面板', '低色溫間接光', '智慧電動窗簾']
+            },
+            lab: {
+                title: '數字矩陣 - 科技工作站',
+                desc: '專為創作者與工程師打造的高度整合工作檯，內建隱藏式理線模組、多螢幕壁掛支架與獨立空調環境。',
+                img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
+                tag: 'ZONE 04 : TECH WORKSTATION',
+                materials: ['碳纖維桌面', '模組化洞洞板', '獨立新風系統']
+            }
+        };
+
+        function switchRoom(key) {
+            const data = roomData[key];
+            if (!data) return;
+
+            const container = document.getElementById('room-detail-container');
+
+            gsap.to(container, {
+                opacity: 0.3,
+                y: -8,
+                duration: 0.2,
+                onComplete: () => {
+                    document.getElementById('room-image').src = data.img;
+                    document.getElementById('room-title').innerText = data.title;
+                    document.getElementById('room-desc').innerText = data.desc;
+                    document.getElementById('room-tag').innerText = data.tag;
+
+                    const matContainer = document.getElementById('room-materials');
+                    matContainer.innerHTML = data.materials.map(m => `
+                        <span class="px-2.5 py-1 rounded bg-white/5 text-gray-300 text-xs border border-white/10">${m}</span>
+                    `).join('');
+
+                    gsap.to(container, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                }
+            });
+        }
+
+        // 初始化 ScrollTrigger 動效
+        function initScrollAnimations() {
+            gsap.utils.toArray('.gsap-reveal').forEach(elem => {
+                gsap.fromTo(elem, 
+                    { opacity: 0, y: 35 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.7,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: elem,
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+
+            gsap.fromTo('.gsap-step',
+                { opacity: 0, y: 25 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    stagger: 0.12,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: "#tech-steps-grid",
+                        start: "top 80%"
+                    }
+                }
+            );
+        }
+
+        // 表單提交
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const toast = document.getElementById('form-toast');
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 5000);
+        }
+
+        // 移動端選單切換
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+
+        // 初始化
+        window.onload = function() {
+            renderProjects('all');
+            initScrollAnimations();
+        };
+    </script>
+</body>
+</html>
